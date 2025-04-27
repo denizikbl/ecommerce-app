@@ -9,4 +9,8 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+  @Get('fruits')
+  getFruits(): string[] {
+      return this.appService.getFruits();
+  }
 }
