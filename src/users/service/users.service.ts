@@ -1,5 +1,5 @@
 import { Injectable, Param, ParseIntPipe } from '@nestjs/common';
-import { dummyUsers } from '../common/utils/data';
+import { dummyUsers } from '../../common/utils/data';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 
