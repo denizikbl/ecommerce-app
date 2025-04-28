@@ -32,4 +32,15 @@ export class UsersService {
         this.users[userIndex] = updatedUser;
         return updatedUser;
     }
+
+   
+    delete(id: number): any {
+        const userIndex = this.users.findIndex(user => user.id === id);
+        if (userIndex === -1) {
+            return {message: 'User with id ${id} not found'}
+        }
+        const deletedUser = this.users.splice(userIndex, 1);
+        return deletedUser[0]; // Return the deleted user
+        
+    }
 }
