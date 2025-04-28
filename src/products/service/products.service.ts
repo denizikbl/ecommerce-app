@@ -31,5 +31,15 @@ export class ProductsService {
         const updatedProduct = { ...dummyProducts[productIndex], ...updateProductDto };
         this.products[productIndex] = updatedProduct;
         return updatedProduct;
-      }
+    }
+
+    delete(id: number): any {
+        const productIndex = this.products.findIndex(product => product.id === id);
+        if (productIndex === -1) {
+            return { message: `Product with id ${id} not found.` };
+        }
+        const deletedProduct = this.products.splice(productIndex, 1);
+        return deletedProduct[0]; 
+    }
+
 }
