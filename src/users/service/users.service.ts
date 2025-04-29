@@ -7,8 +7,26 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 export class UsersService {
     private users = [...dummyUsers];
 
-    getAllUsers() {
-        return this.users;
+    getAllUsers(page: number, limit: number, sort: string, order: 'asc' | 'desc') {
+        let sortedUsers = [...this.users];
+        
+        // sorting
+        sortedUsers.sort((a, b) => {
+            const aValue = a[sort];
+            const bValue = b[sort];
+
+            if (order === 'asc') {
+            return aValue > bValue ? 1 : -1;
+            } else {
+            return aValue < bValue ? 1 : -1;
+            }
+        });
+
+        // pagination
+        const start = (page - 1) * limit;
+        const end = start + limit;
+
+        return sortedUsers.slice(start, end);
     }
 
     createUser(createUserDto: CreateUserDto): any{

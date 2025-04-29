@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UsePipes, Put, ParseIntPipe, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, UsePipes, Put, ParseIntPipe, Param, Delete, Query } from '@nestjs/common';
 import { UsersService } from '../service/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -8,13 +8,20 @@ export class UsersController {
     constructor(private readonly userService: UsersService) {}
 
     @Get()
-    getAllUsers(): any[] {
-        return this.userService.getAllUsers();
+    getAllUsers(
+        @Query('page') page = 1,
+        @Query('limit') limit = 10,
+        @Query('sort') sort = 'id',
+        @Query('order') order: 'asc' | 'desc' = 'asc',
+    ): any[] {
+        return this.userService.getAllUsers(+page, +limit, sort, order);
     }
+
     @Post()
     createUser(@Body() createUserDto: CreateUserDto): any {
         return this.userService.createUser(createUserDto);
     }
+    
     @Put(':id')
     update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto): any {
         return this.userService.update(id, updateUserDto);
