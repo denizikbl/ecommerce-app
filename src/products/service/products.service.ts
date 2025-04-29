@@ -7,8 +7,23 @@ import { UpdateProductDto } from '../dto/update-product.dto';
 export class ProductsService {
     private products = [...dummyProducts];
 
-    getAllProducts() {
-        return this.products;
+    getAllProducts(page: number, limit: number, sort: string, order: 'asc' | 'desc') {
+        let sortedProducts = [...this.products];
+        // sorting
+        sortedProducts.sort((a, b) => {
+            const aValue = a[sort];
+            const bValue = b[sort];
+
+            if (order === 'asc') {
+                return aValue > bValue ? 1 : -1;
+            } else {
+                return aValue < bValue ? 1 : -1;
+            }
+        });
+        // pagination
+        const start = (page - 1) * limit;
+        const end = start + limit;
+        return sortedProducts.slice(start, end);
     }
 
     createProduct(createProductDto: CreateProductDto): any {

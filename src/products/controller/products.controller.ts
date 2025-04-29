@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Body, Param, ParseIntPipe, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, ParseIntPipe, Delete, Query } from '@nestjs/common';
 import { ProductsService } from '../service/products.service';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
@@ -10,8 +10,13 @@ export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
 
     @Get()
-    getAllProducts(): any[] {
-        return this.productsService.getAllProducts();
+    getAllProducts(
+        @Query('page') page = 1,
+        @Query('limit') limit = 10,
+        @Query('sort') sort = 'id',
+        @Query('order') order: 'asc' | 'desc' = 'asc',
+    ): any[] {
+        return this.productsService.getAllProducts(+page, +limit, sort, order);
     }
 
     @Post()
